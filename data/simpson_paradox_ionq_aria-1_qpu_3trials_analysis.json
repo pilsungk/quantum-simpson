@@ -1,0 +1,28 @@
+{
+  "analysis": {
+    "observational": {
+      "male_effect": {
+        "mean": 0.116,
+        "ci_95": [0.105, 0.127]
+      },
+      "female_effect": {
+        "mean": 0.292,
+        "ci_95": [0.184, 0.400]
+      },
+      "overall_effect": {
+        "mean": -0.026,
+        "ci_95": [-0.066, 0.014]
+      }
+    },
+    "causal": {
+      "effect": {
+        "mean": 0.222,
+        "ci_95": [0.195, 0.249]
+      }
+    },
+    "paradox": {
+      "detected": true,
+      "resolved": true
+    }
+  }
+}

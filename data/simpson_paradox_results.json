@@ -1,0 +1,107 @@
+{
+  "experiment_name": "Quantum Simpson's Paradox - 3 Qubit Model",
+  "metadata": {
+    "timestamp": "2025-08-15T02:53:34+09:00",
+    "qiskit_version": "1.4.3",
+    "n_trials": 30,
+    "shots_per_trial": 15000
+  },
+  "observational_analysis": {
+    "subgroups": {
+      "male_g0": {
+        "untreated_prob_p_O1_T0": {
+          "mean": 0.023,
+          "ci_95": [
+            0.021,
+            0.026
+          ]
+        },
+        "treated_prob_p_O1_T1": {
+          "mean": 0.189,
+          "ci_95": [
+            0.188,
+            0.191
+          ]
+        },
+        "effect_delta_p": {
+          "mean": 0.166,
+          "ci_95": [
+            0.163,
+            0.169
+          ]
+        }
+      },
+      "female_g1": {
+        "untreated_prob_p_O1_T0": {
+          "mean": 0.366,
+          "ci_95": [
+            0.364,
+            0.368
+          ]
+        },
+        "treated_prob_p_O1_T1": {
+          "mean": 0.662,
+          "ci_95": [
+            0.657,
+            0.667
+          ]
+        },
+        "effect_delta_p": {
+          "mean": 0.296,
+          "ci_95": [
+            0.292,
+            0.3
+          ]
+        }
+      }
+    },
+    "overall": {
+      "untreated_prob_p_O1_T0": {
+        "mean": 0.32,
+        "ci_95": [
+          0.318,
+          0.322
+        ]
+      },
+      "treated_prob_p_O1_T1": {
+        "mean": 0.259,
+        "ci_95": [
+          0.257,
+          0.261
+        ]
+      },
+      "effect_delta_p": {
+        "mean": -0.061,
+        "ci_95": [
+          -0.063,
+          -0.058
+        ]
+      }
+    }
+  },
+  "causal_analysis": {
+    "overall": {
+      "untreated_prob_p_O1_do_T0": {
+        "mean": 0.194,
+        "ci_95": [
+          0.193,
+          0.195
+        ]
+      },
+      "treated_prob_p_O1_do_T1": {
+        "mean": 0.426,
+        "ci_95": [
+          0.425,
+          0.427
+        ]
+      },
+      "effect_delta_p_ace": {
+        "mean": 0.232,
+        "ci_95": [
+          0.23,
+          0.234
+        ]
+      }
+    }
+  }
+}

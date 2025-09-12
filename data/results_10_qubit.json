@@ -1,0 +1,88 @@
+{
+  "experiment_name": "10-Qubit Multi-Level Simpson's Paradox",
+  "metadata": {
+    "timestamp": "2025-08-14T14:53:21+09:00",
+    "qiskit_version": "1.4.3",
+    "n_trials": 10,
+    "shots_per_trial": 15000,
+    "paradox_detection_rate": 0.0
+  },
+  "table_2_data": {
+    "overall_observational_effect": {
+      "mean": 0.377,
+      "ci_95": [
+        0.371,
+        0.383
+      ]
+    },
+    "age_stratified_effects": {
+      "young_group": {
+        "mean": 0.459,
+        "ci_95": [
+          0.453,
+          0.465
+        ]
+      },
+      "old_group": {
+        "mean": 0.535,
+        "ci_95": [
+          0.524,
+          0.547
+        ]
+      },
+      "average_across_groups": {
+        "mean": 0.497,
+        "ci_95": [
+          0.491,
+          0.503
+        ]
+      }
+    },
+    "region_stratified_effects": {
+      "rural_group": {
+        "mean": 0.384,
+        "ci_95": [
+          0.378,
+          0.39
+        ]
+      },
+      "urban_group": {
+        "mean": 0.427,
+        "ci_95": [
+          0.406,
+          0.448
+        ]
+      },
+      "average_across_groups": {
+        "mean": 0.406,
+        "ci_95": [
+          0.396,
+          0.416
+        ]
+      }
+    },
+    "causal_intervention_effect": {
+      "mean": 0.486,
+      "ci_95": [
+        0.481,
+        0.49
+      ]
+    }
+  },
+  "figure_2_data": {
+    "observational_effect": {
+      "mean": 0.377,
+      "ci_95": [
+        0.371,
+        0.383
+      ]
+    },
+    "causal_effect": {
+      "mean": 0.486,
+      "ci_95": [
+        0.481,
+        0.49
+      ]
+    }
+  }
+}
