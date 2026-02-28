@@ -1,12 +1,13 @@
-# Quantum Causality: Resolving Simpson's Paradox with DO-Calculus
+# Implementing Pearl's DO-Calculus on Quantum Circuits: A Simpson-Type Case Study on NISQ Hardware
 
-This repository contains the source code, data, and analysis scripts for the paper "Quantum Causality: Resolving Simpson's Paradox with DO-Calculus".
+This repository contains the source code, data, and analysis scripts for the paper "Implementing Pearl's DO-Calculus on Quantum Circuits: A Simpson-Type Case Study on NISQ Hardware".
 
 **arXiv Preprint:** [https://arxiv.org/abs/2509.00744]
 
 ## Abstract
 
-Distinguishing correlation from causation is a fundamental challenge in machine intelligence, often representing a critical barrier to building robust and trustworthy systems. While Pearl's $\mathcal{DO}$-calculus provides a rigorous, abstract framework for causal inference, a parallel challenge lies in its physical implementation. Here, we apply and experimentally validate a quantum algorithmic framework that realizes causal interventions by directly manipulating a physical system's evolution. Our approach maps causal networks onto quantum circuits where probabilistic links are encoded by controlled-rotation gates, and interventions are realized by a structural remodeling of the circuit---a physical analogue to Pearl's "graph surgery". We demonstrate the method's efficacy by resolving Simpson's Paradox in a 3-qubit model, and show its scalability by quantifying confounding bias in a 10-qubit healthcare simulation. Critically, we provide a proof-of-principle experimental validation on an IonQ Aria quantum computer, successfully reproducing the paradox and its resolution in the presence of real-world noise. This work establishes a practical pathway for quantum causal inference, offering a new computational tool to address deep-rooted challenges in algorithmic fairness and explainable AI (XAI).
+Distinguishing correlation from causation is a central challenge in machine intelligence, and Pearl's $\mathcal{DO}$-calculus provides a rigorous symbolic framework for reasoning about interventions. A complementary question is whether such intervention logic can be given \emph{executable semantics} on physical quantum devices. Our approach maps causal networks onto quantum circuits, where nodes are encoded in qubit registers, probabilistic links are implemented by controlled-rotation gates, and interventions are realized by a structural remodeling of the circuit---a physical analogue of Pearl's ``graph surgery'' that we term \emph{circuit surgery}. We show that, for a family of 3-node confounded treatment models (including a Simpson-type reversal), the post-surgery circuits reproduce exactly the interventional distributions prescribed by the corresponding classical $\mathcal{DO}$-calculus. We then demonstrate a proof-of-principle experimental realization on an IonQ Aria trapped-ion processor and a 10-qubit synthetic healthcare model, observing close agreement between hardware estimates and classical baselines under realistic noise. We do not claim quantum speedup; instead, our contribution is to establish a concrete pathway by which causal graphs and Pearl-style interventions can be represented, executed, and empirically tested within the formalism of quantum circuits.
+
 
 ## Repository Structure
 
