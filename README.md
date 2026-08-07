@@ -1,21 +1,31 @@
-# Implementing Pearl's DO-Calculus on Quantum Circuits: A Simpson-Type Case Study on NISQ Hardware
+# A Circuit-Level Representation of Pearl-Style Interventions: A Simpson-Paradox Case Study for Binary Structural Causal Models
 
-This repository contains the source code, data, and analysis scripts for the paper "Implementing Pearl's DO-Calculus on Quantum Circuits: A Simpson-Type Case Study on NISQ Hardware".
+This repository contains the source code, data, and analysis scripts for the
+manuscript "A Circuit-Level Representation of Pearl-Style Interventions: A
+Simpson-Paradox Case Study for Binary Structural Causal Models".
 
 **arXiv Preprint:** [https://arxiv.org/abs/2509.00744]
 
-## Abstract
+## Manuscript Versions and Code State
 
-Distinguishing correlation from causation is a central challenge in machine intelligence, and Pearl's $\mathcal{DO}$-calculus provides a rigorous symbolic framework for reasoning about interventions. A complementary question is whether such intervention logic can be given *executable semantics* on physical quantum devices. Our approach maps causal networks onto quantum circuits, where nodes are encoded in qubit registers, probabilistic links are implemented by controlled-rotation gates, and interventions are realized by a structural remodeling of the circuit---a physical analogue of Pearl's ``graph surgery'' that we term *circuit surgery*. We show that, for a family of 3-node confounded treatment models (including a Simpson-type reversal), the post-surgery circuits reproduce exactly the interventional distributions prescribed by the corresponding classical $\mathcal{DO}$-calculus. We then demonstrate a proof-of-principle experimental realization on an IonQ Aria trapped-ion processor and a 10-qubit synthetic healthcare model, observing close agreement between hardware estimates and classical baselines under realistic noise. We do not claim quantum speedup; instead, our contribution is to establish a concrete pathway by which causal graphs and Pearl-style interventions can be represented, executed, and empirically tested within the formalism of quantum circuits.
+The manuscript framing changed across arXiv versions: earlier versions
+emphasized executable semantics on quantum hardware, while the current version
+limits its claim to the representational level for a restricted family of
+binary SCMs. The circuit construction is numerically unchanged; only comments
+and reported wording were updated to match the current framing.
 
+| Manuscript version | Code state |
+|---|---|
+| arXiv v1, v2 | tag `pre-v3-20260228` |
+| arXiv v3 (current) | `main` |
 
 ## Repository Structure
 
 -   **/src**: Contains the core Python modules and experiment execution scripts.
-    -   `simpson_do.py`: Core logic for the 3-qubit Simpson's Paradox model.
-    -   `multi_level_simpson_paradox.py`: Core logic for the 10-qubit scalability model.
-    -   `run-experiments-simpson.py`: Script to run multiple trials of the 3-qubit simulation to generate statistical data.
-    -   `simpson_paradox_ionq_standalone.py`: Script to run the 3-qubit experiment on IonQ backends (simulator or QPU).
+    -   `simpson_do.py`: Three-variable model — observational and post-surgery interventional circuits.
+    -   `multi_level_simpson_paradox.py`: Ten-variable healthcare-style network.
+    -   `run-experiments-simpson.py`: Multi-trial runner for the three-variable model.
+    -   `simpson_paradox_ionq_standalone.py`: Script to run the three-variable experiment on IonQ backends (simulator or QPU).
 -   **/analysis**: Contains Python scripts used to generate the figures for the paper from the data in the `/data` directory.
 -   **/data**: Contains the final JSON data files from the simulation and QPU experiments.
 -   **/figures**: Contains the publication-ready figures (PDFs) as they appear in the paper.
@@ -24,42 +34,38 @@ Distinguishing correlation from causation is a central challenge in machine inte
 
 ## Reproducibility
 
-### 1. Setup Environment
+### 1. Setup
 
-To set up the necessary environment, install the required Python libraries:
+The pinned versions in `requirements.txt` (Qiskit 1.4.3, qiskit-aer 0.17.1) are
+what the reported numbers were produced with. A dedicated virtual environment is
+recommended:
+
 ```bash
+python3 -m venv .venv
+source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### 2. Generating Figures from Pre-computed Data
-
-The final, processed data from our experiments is provided in the `/data` directory. To regenerate the main figures for the paper from this data, run the scripts in the `/analysis` directory:
+### 2. Figures from the provided data
 
 ```bash
-# Generate a figure for 3-qubit sim vs. QPU results
-python analysis/simpson-paradox-3q_sim_vs_qpu.py
-
-# Generate a figure for 10-qubit results
-python analysis/simpson-paradox-resolution-10q.py
-
-# Generate circuit diagrams
-python analysis/draw_circuits_standalone.py
+python analysis/simpson-paradox-3q_sim_vs_qpu.py       # 3-qubit sim vs QPU
+python analysis/simpson-paradox-resolution-10q.py      # 10-qubit results
+python analysis/draw_circuits_standalone.py            # circuit diagrams
 ```
 
-### 3. Regenerating Simulation Data (Optional)
+### 3. Rerunning the simulations (optional)
 
-If you wish to regenerate the simulation data from scratch, you can run the scripts in the `/src` directory.
+Run from inside `/src` (the scripts import each other by module name):
 
 ```bash
-# Regenerate the 3-qubit simulation data (30 trials)
-# This will take some time.
-python src/run-experiments-simpson.py
-
-# Regenerate the 10-qubit simulation data (10 trials)
-# This will also take some time.
-python src/multi_level_simpson_paradox.py
+cd src
+python run-experiments-simpson.py          # three-variable, 30 trials
+python multi_level_simpson_paradox.py      # ten-variable
 ```
-The output JSON files will be saved in the root directory.
+
+Shot noise makes the third decimal fluctuate between runs; reported values are
+means over trials with 95% confidence intervals.
 
 ## Citation
 
@@ -67,7 +73,7 @@ If you find this work useful in your research, please consider citing our paper:
 
 ```bibtex
 @misc{kang2025simpson,
-      title={Quantum Causality: Resolving Simpson's Paradox with DO-Calculus}, 
+      title={A Circuit-Level Representation of Pearl-Style Interventions: A Simpson-Paradox Case Study for Binary Structural Causal Models}, 
       author={Pilsung Kang},
       year={2025},
       eprint={2509.00744},

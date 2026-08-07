@@ -1,0 +1,6 @@
+
+# Editor backups
+*~
+
+# Regenerated experiment output (paper data lives in data/)
+src/*.json

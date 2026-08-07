@@ -1,8 +1,9 @@
 """
-Quantum Simpson's Paradox Experiment Runner
-==========================================
-This script runs multiple trials of the Simpson's paradox experiment
-and generates structured JSON output with statistical analysis.
+Three-Variable Simpson Model: Experiment Runner
+===============================================
+Runs multiple trials of the three-variable Simpson-type experiment
+(observational circuit and post-surgery interventional circuits) and
+generates structured JSON output with confidence intervals.
 """
 
 import json
@@ -184,7 +185,7 @@ class ExperimentRunner:
         Run the complete experiment with multiple trials
         """
         print("="*60)
-        print("QUANTUM SIMPSON'S PARADOX EXPERIMENT")
+        print("THREE-VARIABLE SIMPSON MODEL EXPERIMENT")
         print("="*60)
         print(f"Running {self.n_trials} trials with {self.shots_per_trial} shots each...")
         
@@ -227,7 +228,7 @@ class ExperimentRunner:
         
         # Build structured JSON output
         results = {
-            "experiment_name": "Quantum Simpson's Paradox - 3 Qubit Model",
+            "experiment_name": "Three-Variable Simpson Model - Circuit Surgery",
             "metadata": {
                 "timestamp": datetime.now().strftime("%Y-%m-%dT%H:%M:%S+09:00"),
                 "qiskit_version": qiskit.__version__,
@@ -275,7 +276,7 @@ class ExperimentRunner:
         
         print("Causal Analysis:")
         causal_effect = results['causal_analysis']['overall']['effect_delta_p_ace']['mean']
-        print(f"  True causal effect (ACE): {causal_effect:+.3f}")
+        print(f"  Interventional contrast (ATE): {causal_effect:+.3f}")
         
         # Check for Simpson's paradox
         paradox_detected = (male_effect > 0.02 and female_effect > 0.02 and overall_effect < -0.02)

@@ -1,12 +1,17 @@
 """
-Simpson's Paradox with Proper Do-Calculus
-==================================================
-Causal Structure:
-    Gender (G) <-> Treatment (T)  [Entangled confounding]
-         |              |
-         v              v
+Simpson's Paradox: Circuit-Level Representation of Pearl-Style Interventions
+===========================================================================
+Causal structure (three-variable model):
+    Gender (G) --> Treatment (T)     [confounded treatment assignment]
+        |               |
+        v               v
     Outcome (O) <-------+
-Key fix: Clean intervention circuit that never creates G->T connection
+
+The observational circuit encodes every edge of the DAG. The interventional
+circuit for do(T=t) is obtained by circuit surgery: the gates encoding the
+incoming edge G->T are removed and T is prepared in the intervention value.
+Both circuits use a restricted, additive-in-angle parameterization rather
+than an arbitrary conditional probability table.
 """
 
 import numpy as np
@@ -17,7 +22,8 @@ from math import sqrt
 
 class CorrectedSimpsonsParadox:
     """
-    Corrected implementation with proper do-calculus intervention circuits
+    Three-variable Simpson-type model: observational and post-surgery
+    interventional circuits, and the corresponding treatment effects.
     """
     
     def __init__(self, shots=10000, n_trials=3):
@@ -37,8 +43,9 @@ class CorrectedSimpsonsParadox:
 
     def create_confounded_circuit(self):
         """
-        Create confounded circuit for Simpson's paradox
-        with statistically robust confounding logic.
+        Observational circuit for the three-variable Simpson-type model. 
+        Encodes every edge of the DAG, including the confounder-treatment edge G->T 
+        that is later removed by circuit surgery.
 
         Structure:
         - q0: Gender (G)
@@ -73,10 +80,9 @@ class CorrectedSimpsonsParadox:
 
     def create_intervention_circuit(self, do_treatment=1):
         """
-        CORRECTED: Clean intervention circuit for do(T=treatment)
+        Interventional circuit for do(T=treatment) via circuit surgery.
         
-        In do(T) world, G->T connection never exists!
-        Only G->O and T->O relationships remain.
+        Under do(T), the incoming edge G->T is absent; only G->O and T->O remain.
         """
         qc = QuantumCircuit(3, 3)  # G, T, O
         
@@ -167,14 +173,14 @@ class CorrectedSimpsonsParadox:
     
     def clean_intervention(self, do_treatment=1):
         """
-        CORRECTED: Clean intervention using proper do-calculus circuit
+        Sample the interventional distribution from the post-surgery circuit.
         """
         print(f"Clean intervention: do(T={do_treatment})")
         
         all_counts = {}
         
         for trial in range(self.n_trials):
-            # Use the corrected intervention circuit
+            # Post-surgery circuit for the requested intervention value
             qc = self.create_intervention_circuit(do_treatment)
             job = self.simulator.run(transpile(qc, self.simulator), shots=self.shots)
             counts = job.result().get_counts()
@@ -208,7 +214,7 @@ class CorrectedSimpsonsParadox:
     
     def calculate_total_causal_effect(self, obs_results, int_t0, int_t1):
         """
-        Calculate total causal effect via proper marginalization
+        Compute the interventional contrast by marginalizing over G.
         """
         print("Calculating total causal effect...")
         
@@ -238,9 +244,9 @@ class CorrectedSimpsonsParadox:
         }
     
     def run_complete_experiment(self):
-        """Run complete Simpson's paradox experiment with corrected intervention"""
+        """Run the full three-variable experiment: observational and interventional."""
         print("="*60)
-        print("CORRECTED SIMPSON'S PARADOX WITH CLEAN DO-CALCULUS")
+        print("THREE-VARIABLE SIMPSON MODEL: OBSERVATIONAL VS CIRCUIT SURGERY")
         print("="*60)
         
         # Step 1: Observational analysis
@@ -248,7 +254,7 @@ class CorrectedSimpsonsParadox:
         obs_results = self.measure_observational()
         
         # Step 2: Clean interventional analysis
-        print("\n[STEP 2: CLEAN INTERVENTIONS - NO G->T CONNECTION]")
+        print("\n[STEP 2: INTERVENTIONAL CIRCUITS VIA CIRCUIT SURGERY]")
         int_t0 = self.clean_intervention(do_treatment=0)
         int_t1 = self.clean_intervention(do_treatment=1)
         
@@ -257,13 +263,13 @@ class CorrectedSimpsonsParadox:
         causal_results = self.calculate_total_causal_effect(obs_results, int_t0, int_t1)
         
         # Step 4: Final comparison
-        print("\n[STEP 4: SIMPSON'S PARADOX RESOLUTION]")
+        print("\n[STEP 4: OBSERVATIONAL VS INTERVENTIONAL CONTRAST]")
         obs_aggregate = obs_results['aggregate_effect']
         causal_total = causal_results['total_causal_effect']
         bias = obs_aggregate - causal_total
         
         print(f"  OBSERVATIONAL aggregate: {obs_aggregate:+.3f}")
-        print(f"  TRUE causal effect: {causal_total:+.3f}")
+        print(f"  Interventional contrast: {causal_total:+.3f}")
         print(f"  Confounding bias: {bias:+.3f}")
         
         # Within-group causal effects
@@ -280,13 +286,13 @@ class CorrectedSimpsonsParadox:
                            causal_total > 0 and
                            male_causal > 0 and female_causal > 0)
         
-        print(f"\n[RESOLUTION STATUS]")
+        print(f"\n[SUMMARY]")
         if paradox_resolved:
-            print("  SUCCESS: Simpson's paradox resolved!")
+            print("Simpson-type reversal reproduced; interventional contrast is positive")
             print("  - Observational data showed paradox")
-            print("  - Do-calculus revealed true positive effect")
-            print("  - Confounding bias quantified and removed")
-            print(f"  POLICY: Treatment beneficial (+{causal_total:.3f}, not {obs_aggregate:+.3f})")
+            print("  - Circuit surgery yields the interventional contrast")
+            print("  - Difference between observational and interventional contrasts quantified")
+            print(f"  Under the specified SCM, the interventional contrast is positive (+{causal_total:.3f}, not {obs_aggregate:+.3f})")
         else:
             print("  Paradox resolution incomplete")
         

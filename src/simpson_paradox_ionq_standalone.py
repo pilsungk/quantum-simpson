@@ -70,7 +70,7 @@ class SimpsonParadoxIonQ:
     def create_confounded_circuit(self):
         """
         Create confounded circuit for Simpson's paradox
-        Self-contained implementation with CORRECTED confounding logic
+        Self-contained implementation of the observational circuit (hardware run).
         
         Structure:
         - q0: Gender (G)
@@ -86,7 +86,7 @@ class SimpsonParadoxIonQ:
         # Gender distribution (50/50)
         qc.h(0)
         
-        # CORRECTED Confounding:
+        # Confounded treatment assignment:
         # We want both groups to have treated/untreated members, but at different rates.
         # Males (G=0) get a high chance of treatment (e.g., ~85% prob)
         qc.x(0)  # Control on G=0

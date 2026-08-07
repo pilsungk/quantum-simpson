@@ -1,15 +1,18 @@
 """
-Multi-Level Simpson's Paradox with 10-Qubit Quantum System (FIXED VERSION)
-========================================================================
+Ten-Variable Illustrative Model: Circuit-Level Representation
+=============================================================
 
-Extends the 3-qubit Simpson's Paradox to a realistic healthcare scenario
-with multiple layers of confounding variables, demonstrating how quantum
-do-calculus can untangle extremely complex causal relationships.
+Extends the three-variable model to a larger healthcare-style binary
+network with multi-level confounding. This is an illustrative example of
+the same circuit construction on a larger network, not a demonstration of
+scalability or of performance on real data.
 
-Healthcare Scenario:
-- Age affects Income affects Region affects Gender_bias affects Treatment
-- Treatment affects Insurance affects Hospital affects Doctor affects Outcome affects Satisfaction
-- Multiple confounding pathways create nested Simpson's Paradoxes
+Scenario:
+- Demographic variables (Age, Income, Region) influence the treatment
+  decision; the treatment then affects a cascade of intermediate factors
+  and the final outcome.
+- Post-treatment variables (Insurance, Hospital, Doctor) lie on directed
+  paths from the treatment and must be excluded from adjustment.
 """
 
 import numpy as np
@@ -265,7 +268,7 @@ class MultiLevelSimpsonsParadox:
         """
         Measure observational distribution with complex confounding
         """
-        print("Measuring complex observational distribution...")
+        print("Measuring observational distribution...")
         
         all_counts = defaultdict(int)
         valid_samples = 0
@@ -479,16 +482,16 @@ class MultiLevelSimpsonsParadox:
         Run complete multi-level Simpson's Paradox experiment
         """
         print("="*80)
-        print("MULTI-LEVEL SIMPSON'S PARADOX WITH 10-QUBIT QUANTUM SYSTEM")
-        print("Complex Healthcare Scenario with Nested Confounding")
+        print("TEN-VARIABLE SIMPSON MODEL: OBSERVATIONAL VS CIRCUIT SURGERY")
+        print("Healthcare-style binary network with multi-level confounding (simulation)")
         print("="*80)
         
         # Step 1: Observational analysis
-        print("\n[STEP 1: COMPLEX OBSERVATIONAL ANALYSIS]")
+        print("\n[STEP 1: OBSERVATIONAL ANALYSIS]")
         obs_results = self.measure_observational_distribution()
         
         # Step 2: Interventional analysis
-        print("\n[STEP 2: MULTI-LEVEL INTERVENTIONS]")
+        print("\n[STEP 2: INTERVENTIONAL CIRCUITS VIA CIRCUIT SURGERY]")
         int_t0 = self.multi_level_intervention(do_treatment=0)
         int_t1 = self.multi_level_intervention(do_treatment=1)
         
@@ -497,13 +500,13 @@ class MultiLevelSimpsonsParadox:
         causal_results = self.calculate_multi_level_causal_effects(obs_results, int_t0, int_t1)
         
         # Step 4: Complex paradox resolution
-        print("\n[STEP 4: MULTI-LEVEL PARADOX RESOLUTION]")
+        print("\n[STEP 4: OBSERVATIONAL VS INTERVENTIONAL CONTRAST]")
         
         obs_overall = float(obs_results['paradoxes']['overall'].split('=')[1])
         causal_total = causal_results['total_causal_effect']
         
         print(f"  OBSERVATIONAL overall effect: {obs_overall:+.3f}")
-        print(f"  TRUE causal effect: {causal_total:+.3f}")
+        print(f"  Interventional contrast: {causal_total:+.3f}")
         print(f"  Confounding bias: {obs_overall - causal_total:+.3f}")
         
         # Check for successful resolution (relaxed conditions)
@@ -514,18 +517,18 @@ class MultiLevelSimpsonsParadox:
         
         resolution_success = (paradox_detected and causal_total > 0.02) or significant_bias
         
-        print(f"\n[RESOLUTION STATUS]")
+        print(f"\n[SUMMARY]")
         if resolution_success:
             if paradox_detected:
-                print("  🎉 SUCCESS: Multi-level Simpson's paradox resolved!")
-                print("  - Complex nested confounding detected")
-                print("  - Quantum do-calculus revealed true effects at all levels")
+                print("Multi-level confounding reproduced in the ten-variable model")
+                print("  - Observational and interventional contrasts differ")
+                print("  - Circuit surgery yields the interventional contrast")
             else:
-                print("  🎉 SUCCESS: Quantum causal inference demonstration!")
-                print("  - Significant confounding bias detected and quantified")
-                print("  - Do-calculus provided accurate causal effect measurement")
-            print("  - 10-qubit system successfully handled complex causal structure")
-            print(f"  POLICY: Treatment effect = {causal_total:+.3f} (bias-corrected)")
+                print("Difference between observational and interventional contrasts observed")
+                print("  - Confounding bias quantified")
+                print("  - Circuit surgery yields the interventional contrast")
+            print("  - The same construction applies to the ten-variable network")
+            print(f"  Under the specified SCM, the interventional contrast is {causal_total:+.3f}")
         else:
             print("  Analysis complete - no significant confounding detected")
             print(f"  Observational and causal estimates closely aligned")
@@ -616,7 +619,7 @@ def test_10_qubit_intervention():
 
 if __name__ == "__main__":
     print("="*80)
-    print("TESTING MULTI-LEVEL SIMPSON'S PARADOX (10-QUBIT SYSTEM)")
+    print("TEN-VARIABLE SIMPSON MODEL: SELF-TESTS")
     print("="*80)
     
     tests = [test_complex_circuit_creation, test_multi_level_analysis, test_10_qubit_intervention]
@@ -627,10 +630,10 @@ if __name__ == "__main__":
     
     if passed == total:
         print("\nAll tests passed! Running enhanced 10-qubit experiment...")
-        print("(Enhanced confounding parameters for stronger Simpson's Paradox)")
+        print("(Ten-variable healthcare-style network; simulation only)")
         print("\n" + "="*80)
         experiment = MultiLevelSimpsonsParadox(shots=15000, n_trials=10)  
         results = experiment.run_complete_experiment()
-        print("\n🎉 Enhanced 10-qubit Multi-Level Simpson's Paradox experiment completed!")
+        print("\nTen-variable model experiment completed.")
     else:
         print("\nSome tests failed. Please check the implementation.")
