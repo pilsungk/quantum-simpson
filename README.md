@@ -26,6 +26,7 @@ and reported wording were updated to match the current framing.
     -   `multi_level_simpson_paradox.py`: Ten-variable healthcare-style network.
     -   `run-experiments-simpson.py`: Multi-trial runner for the three-variable model.
     -   `simpson_paradox_ionq_standalone.py`: Script to run the three-variable experiment on IonQ backends (simulator or QPU).
+    -   `dowhy_backdoor_validation.py`: Backdoor-adjustment reference for the ten-variable model (DoWhy identifies the adjustment set; the effect is estimated nonparametrically).
 -   **/analysis**: Contains Python scripts used to generate the figures for the paper from the data in the `/data` directory.
 -   **/data**: Contains the final JSON data files from the simulation and QPU experiments.
 -   **/figures**: Contains the publication-ready figures (PDFs) as they appear in the paper.
@@ -52,6 +53,7 @@ pip install -r requirements.txt
 python analysis/simpson-paradox-3q_sim_vs_qpu.py       # 3-qubit sim vs QPU
 python analysis/simpson-paradox-resolution-10q.py      # 10-qubit results
 python analysis/draw_circuits_standalone.py            # circuit diagrams
+python dowhy_backdoor_validation.py                    # ten-variable: backdoor vs circuit surgery
 ```
 
 ### 3. Rerunning the simulations (optional)

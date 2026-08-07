@@ -1,17 +1,21 @@
 """
 Simpson's Paradox: Circuit-Level Representation of Pearl-Style Interventions
-===========================================================================
-Causal structure (three-variable model):
-    Gender (G) --> Treatment (T)     [confounded treatment assignment]
+============================================================================
+Classical confounding via controlled rotations. Each parent configuration
+corresponds to a distinct computational basis state of the control
+registers, so no interference arises across parent configurations; the
+computational-basis measurement statistics reproduce the Bayesian-network
+factorization of the specified SCM.
+
+Causal structure (3-variable SCM):
+    Gender (G) ---> Treatment (T)
         |               |
         v               v
     Outcome (O) <-------+
+    (edges: G->T, G->O, T->O)
 
-The observational circuit encodes every edge of the DAG. The interventional
-circuit for do(T=t) is obtained by circuit surgery: the gates encoding the
+Intervention is implemented by circuit surgery: the gates encoding the
 incoming edge G->T are removed and T is prepared in the intervention value.
-Both circuits use a restricted, additive-in-angle parameterization rather
-than an arbitrary conditional probability table.
 """
 
 import numpy as np
@@ -43,9 +47,9 @@ class CorrectedSimpsonsParadox:
 
     def create_confounded_circuit(self):
         """
-        Observational circuit for the three-variable Simpson-type model. 
-        Encodes every edge of the DAG, including the confounder-treatment edge G->T 
-        that is later removed by circuit surgery.
+        Observational circuit for the three-variable Simpson-type model.
+        Encodes every edge of the DAG, including the confounder-treatment
+        edge G->T that is later removed by circuit surgery.
 
         Structure:
         - q0: Gender (G)
@@ -82,7 +86,8 @@ class CorrectedSimpsonsParadox:
         """
         Interventional circuit for do(T=treatment) via circuit surgery.
         
-        Under do(T), the incoming edge G->T is absent; only G->O and T->O remain.
+        Under do(T), the incoming edge G->T is absent; only G->O and T->O
+        remain.
         """
         qc = QuantumCircuit(3, 3)  # G, T, O
         
@@ -168,6 +173,7 @@ class CorrectedSimpsonsParadox:
             'aggregate_effect': aggregate_effect,
             'paradox_detected': paradox,
             'population': {'p_male': p_male, 'p_female': p_female},
+            'cond': effects,   
             'raw_counts': all_counts
         }
     
@@ -175,7 +181,7 @@ class CorrectedSimpsonsParadox:
         """
         Sample the interventional distribution from the post-surgery circuit.
         """
-        print(f"Clean intervention: do(T={do_treatment})")
+        print(f"Post-surgery circuit: do(T={do_treatment})")
         
         all_counts = {}
         
@@ -214,7 +220,7 @@ class CorrectedSimpsonsParadox:
     
     def calculate_total_causal_effect(self, obs_results, int_t0, int_t1):
         """
-        Compute the interventional contrast by marginalizing over G.
+        Calculate total causal effect via proper marginalization
         """
         print("Calculating total causal effect...")
         
@@ -243,6 +249,29 @@ class CorrectedSimpsonsParadox:
             'total_causal_effect': total_causal_effect
         }
     
+    def backdoor_adjustment(self, obs_results):
+        """Backdoor adjustment from observational conditionals only.
+    
+        Computes sum_g [P(O=1|T=1,g) - P(O=1|T=0,g)] P(g) using the
+        observational P(O=1|T,G) and the population P(G). This is the
+        classical reference the post-surgery circuit should reproduce.
+    
+        Args:
+            obs_results: dict returned by measure_observational(), containing
+                per-(gender, treatment) outcome probabilities and population.
+    
+        Returns:
+            Backdoor-adjusted ATE (float).
+        """
+        eff = obs_results  # expects access to per-(g,t) P(O=1)
+        p_male = obs_results['population']['p_male']
+        p_female = obs_results['population']['p_female']
+
+        cond = obs_results['cond']
+        p_do_t1 = cond[(0, 1)] * p_male + cond[(1, 1)] * p_female
+        p_do_t0 = cond[(0, 0)] * p_male + cond[(1, 0)] * p_female
+        return float(p_do_t1 - p_do_t0)
+
     def run_complete_experiment(self):
         """Run the full three-variable experiment: observational and interventional."""
         print("="*60)
@@ -253,7 +282,7 @@ class CorrectedSimpsonsParadox:
         print("\n[STEP 1: OBSERVATIONAL ANALYSIS]")
         obs_results = self.measure_observational()
         
-        # Step 2: Clean interventional analysis
+        # Step 2: Interventional analysis via circuit surgery
         print("\n[STEP 2: INTERVENTIONAL CIRCUITS VIA CIRCUIT SURGERY]")
         int_t0 = self.clean_intervention(do_treatment=0)
         int_t1 = self.clean_intervention(do_treatment=1)
