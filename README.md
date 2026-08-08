@@ -23,13 +23,17 @@ and reported wording were updated to match the current framing.
 
 -   **/src**: Contains the core Python modules and experiment execution scripts.
     -   `simpson_do.py`: Three-variable model — observational and post-surgery interventional circuits.
-    -   `multi_level_simpson_paradox.py`: Ten-variable healthcare-style network.
-    -   `run-experiments-simpson.py`: Multi-trial runner for the three-variable model.
-    -   `simpson_paradox_ionq_standalone.py`: Script to run the three-variable experiment on IonQ backends (simulator or QPU).
-    -   `dowhy_backdoor_validation.py`: Backdoor-adjustment reference for the ten-variable model (DoWhy identifies the adjustment set; the effect is estimated nonparametrically).
+    -   `multi_level_simpson_paradox.py`: Ten-variable network — model definition and circuit construction.
+    -   `dowhy_backdoor_validation.py`: Produces Table 2 — DoWhy identifies the adjustment set; every effect is then estimated nonparametrically (g-formula) with across-trial confidence intervals.
+    -   `run-experiments-simpson.py`: Produces Table 1 — multi-trial runner for the three-variable model.
+    -   `simpson_paradox_ionq_standalone.py`: Script to run the three-variable experiment on IonQ backends.
 -   **/analysis**: Contains Python scripts used to generate the figures for the paper from the data in the `/data` directory.
--   **/data**: Contains the final JSON data files from the simulation and QPU experiments.
--   **/figures**: Contains the publication-ready figures (PDFs) as they appear in the paper.
+-   **/data**: JSON results.
+    -   `simpson_paradox_results.json` — three-variable model (Table 1).
+    -   `results_10_variable_backdoor.json` — ten-variable model (Table 2).
+    -   `simpson_paradox_ionq_aria-1_qpu_3trials_analysis.json` — IonQ hardware run.
+    -   `results_10_qubit.json` — earlier ten-variable output retained from a previous manuscript version. Its stratified rows are unweighted averages over strata and therefore differ from the population-weighted (g-formula) values reported in the current Table 2; it is not the source of any table in the present version.
+-   **/figures**: Publication-ready figures (PDFs). Some correspond to earlier manuscript versions and are not used in the current text.
 -   `requirements.txt`: A list of required Python packages for reproducibility.
 -   `LICENSE`: The license for this project (MIT License).
 
@@ -51,9 +55,8 @@ pip install -r requirements.txt
 
 ```bash
 python analysis/simpson-paradox-3q_sim_vs_qpu.py       # 3-qubit sim vs QPU
-python analysis/simpson-paradox-resolution-10q.py      # 10-qubit results
+python analysis/simpson-paradox-resolution-10q.py      # 10-qubit figure (earlier manuscript version)
 python analysis/draw_circuits_standalone.py            # circuit diagrams
-python dowhy_backdoor_validation.py                    # ten-variable: backdoor vs circuit surgery
 ```
 
 ### 3. Rerunning the simulations (optional)
@@ -62,8 +65,9 @@ Run from inside `/src` (the scripts import each other by module name):
 
 ```bash
 cd src
-python run-experiments-simpson.py          # three-variable, 30 trials
-python multi_level_simpson_paradox.py      # ten-variable
+python run-experiments-simpson.py          # three-variable, 30 trials (Table 1)
+python dowhy_backdoor_validation.py        # ten-variable, 30 trials (Table 2)
+python multi_level_simpson_paradox.py      # ten-variable model, exploratory run
 ```
 
 Shot noise makes the third decimal fluctuate between runs; reported values are

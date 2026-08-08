@@ -22,8 +22,13 @@ Pipeline:
 Requires: qiskit, qiskit-aer, pandas, numpy, dowhy, networkx
 """
 
+import json
+import os
+from datetime import datetime, timezone
+
 import numpy as np
 import pandas as pd
+import qiskit
 from scipy.stats import t as t_dist
 
 from multi_level_simpson_paradox import MultiLevelSimpsonsParadox
@@ -229,7 +234,7 @@ def trial_ci(values, confidence=0.95):
     return mean, lo, hi
 
 
-def run_validation(shots=15000, n_trials=30, seed=0):
+def run_validation(shots=15000, n_trials=30, seed=0, save_path=None):
     """Run the backdoor-vs-circuit comparison with across-trial CIs.
 
     Every method is evaluated once per trial on independent circuit
@@ -242,8 +247,11 @@ def run_validation(shots=15000, n_trials=30, seed=0):
         shots: shots per circuit execution.
         n_trials: number of independent trials (CI resolution).
         seed: base RNG seed for reproducibility of the simulator stream.
+        save_path: if given, write the aggregated results to this path as
+            JSON. Nothing is written when None.
 
-    Prints the Result 2 table rows with mean and 95% CI.
+    Prints the Result 2 table rows with mean and 95% CI, and returns the
+    aggregated result dictionary.
     """
     model = MultiLevelSimpsonsParadox(shots=shots, n_trials=n_trials)
 
@@ -325,7 +333,50 @@ def run_validation(shots=15000, n_trials=30, seed=0):
     print()
     print("  P(O=1 | do(T=1)) = {0:.3f}".format(pm1))
     print("  P(O=1 | do(T=0)) = {0:.3f}".format(pm0))
-    
+
+    # --- assemble the result record (no recomputation; the same values
+    #     that were just printed) ---
+    methods = {}
+    for name, vals in rows:
+        mean, lo, hi = trial_ci(vals)
+        methods[name] = {
+            "ate_mean": round(float(mean), 6),
+            "ci_95": [round(float(lo), 6), round(float(hi), 6)],
+            "per_trial": [round(float(v), 6) for v in vals],
+        }
+
+    result = {
+        "experiment_name":
+            "Ten-Variable Model - Backdoor Reference vs Circuit Surgery",
+        "metadata": {
+            "timestamp": datetime.now(timezone.utc).astimezone().isoformat(),
+            "qiskit_version": qiskit.__version__,
+            "n_trials": n_trials,
+            "shots_per_trial": shots,
+            "base_seed": seed,
+            "treatment": TREATMENT,
+            "outcome": OUTCOME,
+            "adjustment_set_source": "DoWhy identify_effect",
+            "effect_estimator": "nonparametric g-formula (empirical)",
+        },
+        "adjustment_set": sorted(adjustment_set),
+        "methods": methods,
+        "interventional_probabilities": {
+            "P(outcome=1 | do(treatment=1))": round(float(pm1), 6),
+            "P(outcome=1 | do(treatment=0))": round(float(pm0), 6),
+        },
+    }
+
+    if save_path is not None:
+        os.makedirs(os.path.dirname(save_path) or ".", exist_ok=True)
+        with open(save_path, "w") as handle:
+            json.dump(result, handle, indent=2)
+        print()
+        print("  results written to {0}".format(save_path))
+
+    return result
+
+
 def observational_unadjusted_ate(df, treatment, outcome):
     """Crude observational contrast P(O=1|T=1) - P(O=1|T=0), no adjustment."""
     p1 = df.loc[df[treatment] == 1, outcome].mean()
@@ -339,4 +390,8 @@ def single_variable_stratified_ate(df, treatment, outcome, stratifier):
         df, treatment, outcome, [stratifier])
 
 if __name__ == "__main__":
-    run_validation()
+    run_validation(
+        save_path=os.path.join(
+            os.path.dirname(__file__), "..", "data",
+            "results_10_variable_backdoor.json"),
+    )
