@@ -1,0 +1,10 @@
+# Installation constraints for the validation scripts in this directory.
+#
+# These are the ranges the scripts are written against. The environment on
+# which the stored results were produced is recorded inside every
+# results/*.json file (python, numpy, scipy, qiskit versions); use those
+# versions to reproduce the stored numbers exactly.
+
+qiskit>=2.4,<3      # Qiskit 2 API: QuantumCircuit, Statevector
+numpy>=1.26
+scipy>=1.11         # v04 only: least_squares, minimize, differential_evolution

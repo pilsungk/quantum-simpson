@@ -34,6 +34,7 @@ and reported wording were updated to match the current framing.
     -   `simpson_paradox_ionq_aria-1_qpu_3trials_analysis.json` — IonQ hardware run.
     -   `results_10_qubit.json` — earlier ten-variable output retained from a previous manuscript version. Its stratified rows are unweighted averages over strata and therefore differ from the population-weighted (g-formula) values reported in the current Table 2; it is not the source of any table in the present version.
 -   **/figures**: Publication-ready figures (PDFs). Some correspond to earlier manuscript versions and are not used in the current text.
+-   **/validation**: Exactness and expressivity checks for the additive-in-angle circuit family (added for the revised manuscript). Self-contained, with its own `README.md` and `requirements.txt`; needs Qiskit 2, unlike `/src`.
 -   `requirements.txt`: A list of required Python packages for reproducibility.
 -   `LICENSE`: The license for this project (MIT License).
 
@@ -72,6 +73,15 @@ python multi_level_simpson_paradox.py      # ten-variable model, exploratory run
 
 Shot noise makes the third decimal fluctuate between runs; reported values are
 means over trials with 95% confidence intervals.
+
+### 4. Validation of the additive-in-angle family (Qiskit 2)
+
+`/validation` checks, on an ideal statevector simulator, that the restricted
+circuit family prepares exactly the distribution its angles induce and that
+circuit surgery gives the truncated factorization (`v11`), and measures how
+far the family falls short of an arbitrary conditional probability table
+(`v04`). It requires Qiskit 2 and therefore a separate environment; see
+`validation/README.md`.
 
 ## Citation
 
