@@ -2,14 +2,14 @@
   "experiment": "v11_additive_exactness",
   "script": {
     "name": "v11_additive_exactness.py",
-    "sha256": "6fad03a691728cb3354b3829fab365d8a01f94cb88437846540dc74a5e871f5c"
+    "sha256": "c96793b5af39c3e3d816aa56e9460f17f57d0d0b75cab34490c09c7adb9d8c1e"
   },
   "shared_module": {
     "name": "common.py",
     "sha256": "fdc270cc7d148b08f3dc1e30091bd745a27670b519851e888bb84dd2dfafef99"
   },
   "environment": {
-    "timestamp": "2026-11-05T22:55:40.455400+09:00",
+    "timestamp": "2026-11-05T23:20:12.314313+09:00",
     "python": "3.13.18",
     "platform": "Linux-6.18.44-fc-v236-x86_64-with-glibc2.39",
     "numpy": "2.5.3",

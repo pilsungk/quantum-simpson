@@ -11,9 +11,12 @@ angles induce,
 where theta_eff is the base angle plus every increment whose control
 condition is met under pa_i.
 
-Claim under test (V2a). Removing every gate that acts on an intervened
-register and preparing that register in the intervention value yields the
-truncated factorization of the induced table.
+Claim under test (V2a). Removing the mechanism block of an intervened
+register - the rotations whose target is that register, with their control
+relabeling X gates - and preparing the register in the intervention value
+yields the truncated factorization of the induced table. Gates of later
+registers that use the intervened register as a control are kept, including
+the X gates that relabel such a control.
 
 Both claims are checked on the statevector, so there is no shot noise. They
 are checked on the two models used in the manuscript and on randomly drawn
@@ -69,8 +72,11 @@ def induced_cpt(nodes, parents, angles):
 def build_additive(nodes, parents, angles, do=None):
     """Additive-in-angle circuit. Nodes must be listed parents-first.
 
-    do: None or (node_name, value). Surgery drops every gate acting on the
-    intervened register and prepares it in the intervention value.
+    do: None or (node_name, value). Surgery skips the intervened register's
+    own mechanism block (base rotation and incoming controlled rotations)
+    and prepares the register in the intervention value. Later registers
+    are built as usual, so gates that use the intervened register as a
+    control - and the X gates that relabel such a control - are kept.
     """
     idx = {n: i for i, n in enumerate(nodes)}
     qc = QuantumCircuit(len(nodes))
