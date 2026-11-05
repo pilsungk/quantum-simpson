@@ -1,0 +1,163 @@
+{
+ "input_file": "ionq_aria1_qpu_trials.json",
+ "method": {
+  "primary": "per-trial estimates, mean over 3 trials, Student's t interval with 2 degrees of freedom",
+  "estimator_c": "post-select shots whose treatment register reads the intended value; standardize over G with P(G) from the observational circuit of the same trial",
+  "estimator_a": "direct contrast on the interventional circuits, no post-selection, no standardization",
+  "seed": 42
+ },
+ "rows": {
+  "male": {
+   "mean": 0.11597732476197654,
+   "sd": 0.009262385543427294,
+   "se": 0.005347640786835846,
+   "df": 2,
+   "critical": 4.302652729749462,
+   "ci_95": [
+    0.09296828353277772,
+    0.13898636599117536
+   ],
+   "values": [
+    0.10823619828359163,
+    0.11345664347530969,
+    0.12623913252702834
+   ]
+  },
+  "female": {
+   "mean": 0.2920114834207968,
+   "sd": 0.09556459556845613,
+   "se": 0.055174244976445866,
+   "df": 2,
+   "critical": 4.302652729749462,
+   "ci_95": [
+    0.05461586766102647,
+    0.5294070991805672
+   ],
+   "values": [
+    0.2006561085972851,
+    0.3912917691306235,
+    0.28408657253448183
+   ]
+  },
+  "overall_obs": {
+   "mean": -0.02572871608310101,
+   "sd": 0.03522831346382107,
+   "se": 0.020339076261433612,
+   "df": 2,
+   "critical": 4.302652729749462,
+   "ci_95": [
+    -0.11324069807994082,
+    0.0617832659137388
+   ],
+   "values": [
+    -0.046313158636664964,
+    0.01494844575762655,
+    -0.04582143537026462
+   ]
+  },
+  "interventional_c": {
+   "mean": 0.22211535968650664,
+   "sd": 0.024281645909159898,
+   "se": 0.014019014802020642,
+   "df": 2,
+   "critical": 4.302652729749462,
+   "ci_95": [
+    0.1617964073801944,
+    0.2824343119928189
+   ],
+   "values": [
+    0.2093713760646495,
+    0.250115839404411,
+    0.20685886359045935
+   ]
+  },
+  "interventional_a": {
+   "mean": 0.2204271468495935,
+   "sd": 0.021141064237231864,
+   "se": 0.012205799128320987,
+   "df": 2,
+   "critical": 4.302652729749462,
+   "ci_95": [
+    0.1679098319113496,
+    0.2729444617878374
+   ],
+   "values": [
+    0.20097560975609755,
+    0.24292682926829268,
+    0.21737900152439027
+   ]
+  }
+ },
+ "pooled_estimator_c": {
+  "estimate": 0.2218870622440839,
+  "bootstrap_ci_95": [
+   0.2013704452188559,
+   0.24220862181209324
+  ],
+  "n_boot": 20000,
+  "note": "treats all shots as one sample; does not reflect trial-to-trial variation; supplementary only"
+ },
+ "overdispersion_exploratory": {
+  "between_trial_sd": 0.024281645909159898,
+  "shot_noise_sd": 0.01825521385732076,
+  "variance_ratio": 1.7692222532414907,
+  "chi2": 3.5384445064829815,
+  "df": 2,
+  "p_value": 0.17046551628505635,
+  "note": "exploratory; two degrees of freedom give little power to detect drift"
+ },
+ "post_selection": {
+  "per_trial": {
+   "0": {
+    "intervention_t1": {
+     "discarded": 6,
+     "total": 1025
+    },
+    "intervention_t0": {
+     "discarded": 1,
+     "total": 1025
+    }
+   },
+   "1": {
+    "intervention_t1": {
+     "discarded": 6,
+     "total": 1025
+    },
+    "intervention_t0": {
+     "discarded": 1,
+     "total": 1025
+    }
+   },
+   "2": {
+    "intervention_t1": {
+     "discarded": 6,
+     "total": 1025
+    },
+    "intervention_t0": {
+     "discarded": 1,
+     "total": 1024
+    }
+   }
+  },
+  "discarded_total": 21,
+  "shots_total": 6149,
+  "fraction": 0.0034151894617010896
+ },
+ "recorded_totals_per_circuit": {
+  "0": {
+   "observational": 1025,
+   "intervention_t1": 1025,
+   "intervention_t0": 1025
+  },
+  "1": {
+   "observational": 1025,
+   "intervention_t1": 1025,
+   "intervention_t0": 1025
+  },
+  "2": {
+   "observational": 1025,
+   "intervention_t1": 1025,
+   "intervention_t0": 1024
+  }
+ }
+}

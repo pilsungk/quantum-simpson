@@ -1,0 +1,129 @@
+{
+ "description": "Per-trial measurement counts from the three IonQ Aria-1 QPU executions used for the hardware column of the three-qubit results table. Each trial ran the observational circuit and the two post-surgery interventional circuits (do(T=1), do(T=0)) with 1,024 requested shots per circuit.",
+ "provenance": {
+  "source_file": "simpson_paradox_ionq_aria-1_qpu_20250815_050134.json (original run record, kept with the author)",
+  "source_file_sha256": "7d39205a641ceda4716337e319268c934db4ea8a3444e025b3c3c92d9ef0ccab",
+  "run_timestamp": "2025-08-15T05:01:34.630162",
+  "backend": "ionq_qpu.aria-1",
+  "requested_shots_per_circuit": 1024,
+  "trials_in_source_file": 5,
+  "trials_included_here": [
+   0,
+   1,
+   2
+  ],
+  "trials_excluded": {
+   "indices": [
+    3,
+    4
+   ],
+   "reason": "The run log records an IonQ QuotaExhaustedError after trial 2; trials 3 and 4 were produced by the script's automatic fallback to a local Qiskit Aer simulator and are not hardware data. The original file's experiment_info (n_trials=5, simulator=false) reflects the requested configuration, not the per-trial backend, which the run script did not record."
+  },
+  "counts_origin": "For QPU jobs qiskit-ionq reconstructs counts as round(p * shots) from the per-outcome probabilities returned by the IonQ API (qiskit_ionq.ionq_job._build_counts). Independent rounding per outcome makes the recorded total differ from the requested 1,024 by up to a few shots; eight of the nine QPU circuit runs below total 1,025. Simulator jobs are sampled exactly and total 1,024, which independently corroborates the exclusion above.",
+  "bit_order": "Qiskit little-endian; string 'OTG' with q0=G (gender), q1=T (treatment), q2=O (outcome). The trailing ' 000' are unused classical bits."
+ },
+ "trials": [
+  {
+   "trial": 0,
+   "observational": {
+    "010 000": 325,
+    "001 000": 261,
+    "101 000": 164,
+    "110 000": 97,
+    "000 000": 65,
+    "111 000": 61,
+    "011 000": 43,
+    "100 000": 9
+   },
+   "intervention_t1": {
+    "010 000": 411,
+    "111 000": 325,
+    "011 000": 179,
+    "110 000": 104,
+    "001 000": 3,
+    "000 000": 2,
+    "101 000": 1
+   },
+   "intervention_t0": {
+    "000 000": 477,
+    "001 000": 323,
+    "101 000": 198,
+    "100 000": 26,
+    "011 000": 1
+   },
+   "recorded_totals": {
+    "observational": 1025,
+    "intervention_t1": 1025,
+    "intervention_t0": 1025
+   }
+  },
+  {
+   "trial": 1,
+   "observational": {
+    "010 000": 327,
+    "001 000": 304,
+    "101 000": 142,
+    "110 000": 88,
+    "000 000": 64,
+    "111 000": 66,
+    "011 000": 27,
+    "100 000": 7
+   },
+   "intervention_t1": {
+    "010 000": 409,
+    "111 000": 349,
+    "011 000": 161,
+    "110 000": 100,
+    "000 000": 4,
+    "100 000": 1,
+    "001 000": 1
+   },
+   "intervention_t0": {
+    "000 000": 488,
+    "001 000": 335,
+    "101 000": 182,
+    "100 000": 19,
+    "010 000": 1
+   },
+   "recorded_totals": {
+    "observational": 1025,
+    "intervention_t1": 1025,
+    "intervention_t0": 1025
+   }
+  },
+  {
+   "trial": 2,
+   "observational": {
+    "010 000": 338,
+    "001 000": 280,
+    "101 000": 162,
+    "110 000": 89,
+    "111 000": 54,
+    "000 000": 67,
+    "011 000": 29,
+    "100 000": 6
+   },
+   "intervention_t1": {
+    "010 000": 405,
+    "111 000": 321,
+    "011 000": 203,
+    "110 000": 90,
+    "101 000": 3,
+    "000 000": 2,
+    "001 000": 1
+   },
+   "intervention_t0": {
+    "000 000": 514,
+    "001 000": 318,
+    "101 000": 179,
+    "100 000": 12,
+    "010 000": 1
+   },
+   "recorded_totals": {
+    "observational": 1025,
+    "intervention_t1": 1025,
+    "intervention_t0": 1024
+   }
+  }
+ ]
+}

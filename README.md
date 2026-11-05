@@ -28,10 +28,13 @@ and reported wording were updated to match the current framing.
     -   `run-experiments-simpson.py`: Produces Table 1 — multi-trial runner for the three-variable model.
     -   `simpson_paradox_ionq_standalone.py`: Script to run the three-variable experiment on IonQ backends.
 -   **/analysis**: Contains Python scripts used to generate the figures for the paper from the data in the `/data` directory.
+    -   `ionq_trial_level_analysis.py`: Recomputes the hardware column of the three-qubit results table from the raw per-trial counts (`data/ionq_aria1_qpu_trials.json`) with Student's t intervals over the three QPU trials, and records estimator definitions, post-selection rates and recorded shot totals. Added for the revised manuscript.
 -   **/data**: JSON results.
     -   `simpson_paradox_results.json` — three-variable model (Table 1).
     -   `results_10_variable_backdoor.json` — ten-variable model (Table 2).
-    -   `simpson_paradox_ionq_aria-1_qpu_3trials_analysis.json` — IonQ hardware run.
+    -   `ionq_aria1_qpu_trials.json` — raw per-trial counts of the three IonQ Aria-1 QPU executions, with provenance (which trials of the original run are included and why the other two, produced by a local-simulator fallback after quota exhaustion, are not). This is the input to the hardware re-analysis.
+    -   `ionq_aria1_qpu_trial_level_analysis.json` — output of `analysis/ionq_trial_level_analysis.py`; source of the hardware column in the revised results table.
+    -   `simpson_paradox_ionq_aria-1_qpu_3trials_analysis.json` — original summary of the IonQ hardware run (point estimates with normal-approximation intervals), retained as submitted; superseded by the trial-level analysis above.
     -   `results_10_qubit.json` — earlier ten-variable output retained from a previous manuscript version. Its stratified rows are unweighted averages over strata and therefore differ from the population-weighted (g-formula) values reported in the current Table 2; it is not the source of any table in the present version.
 -   **/figures**: Publication-ready figures (PDFs). Some correspond to earlier manuscript versions and are not used in the current text.
 -   **/validation**: Exactness and expressivity checks for the additive-in-angle circuit family (added for the revised manuscript). Self-contained, with its own `README.md` and `requirements.txt`; needs Qiskit 2, unlike `/src`.
@@ -74,7 +77,24 @@ python multi_level_simpson_paradox.py      # ten-variable model, exploratory run
 Shot noise makes the third decimal fluctuate between runs; reported values are
 means over trials with 95% confidence intervals.
 
-### 4. Validation of the additive-in-angle family (Qiskit 2)
+### 4. Hardware re-analysis from raw counts
+
+```bash
+python analysis/ionq_trial_level_analysis.py   # hardware column, Student's t over 3 QPU trials
+```
+
+Needs only numpy and scipy. The original IonQ run script pooled the three
+trials and reported point estimates; the intervals in the originally
+submitted summary were computed outside this repository with a normal
+approximation. The script above recomputes every row from the raw counts
+with Student's t on the three trials, matching the method used for the
+simulator, and writes `data/ionq_aria1_qpu_trial_level_analysis.json`.
+Note that IonQ QPU counts are reconstructed by qiskit-ionq as
+`round(p * shots)` per outcome from the probabilities the API returns, so
+recorded totals can differ from the requested 1,024 by a shot or two; the
+data file's provenance block records the totals.
+
+### 5. Validation of the additive-in-angle family (Qiskit 2)
 
 `/validation` checks, on an ideal statevector simulator, that the restricted
 circuit family prepares exactly the distribution its angles induce and that
