@@ -23,6 +23,7 @@ concerns hardware noise, and no experiment claims a quantum advantage.
 |---|---|---|
 | `v11_additive_exactness.py` | V1a: the circuit prepares the Bayesian-network factorization of the conditional probability table its angles induce. V2a: removing the gates on an intervened register and preparing it in the intervention value gives the truncated factorization. | both manuscript models and 1,000 random specifications over four graph shapes, every non-root node, both intervention arms: worst error 5.6e-16, inside and beyond composed angle pi |
 | `v04_additive_family_fit.py` | the additive family cannot represent an arbitrary table once a node has two or more parents; how large is the residual | best-found minimax error over 200 random two-parent tables: median 0.021, worst 0.079 (upper bounds on the true minimum) |
+| `v12_exact_ten_variable.py` | exact values of the five treatment contrasts in the ten-variable results table, by enumerating the joint distribution induced by the circuit angles and evaluating the g-formula; no sampling | exact backdoor-adjusted and post-surgery contrasts coincide to 2e-16 at +0.4841991; all five simulated 95% intervals contain their exact value; enumeration agrees with the Qiskit statevector to 3e-16 |
 
 Script numbers are kept from the author's internal validation suite so that
 result files can be traced back to it.
@@ -42,9 +43,13 @@ environment for this directory:
     pip install -r requirements.txt
     python3 v11_additive_exactness.py
     python3 v04_additive_family_fit.py
+    python3 v12_exact_ten_variable.py
 
-Each script is seeded and deterministic. `v11` runs in a few seconds; `v04`
-runs two global searches per table and takes several minutes.
+Each script is seeded and deterministic. `v11` and `v12` run in a few
+seconds; `v04` runs two global searches per table and takes several minutes.
+`v12` imports the model specification from `v11` and reads the stored
+simulation record `../data/results_10_variable_backdoor.json` for the
+comparison column.
 
 ## Provenance
 
@@ -67,6 +72,17 @@ sin^2(theta/2) is the Born probability for any theta. What is lost beyond pi
 is only the monotone reading of an angle increment as a positive change in
 probability, which is a limitation of the parameterization discussed in the
 manuscript, not of the circuit's statistics.
+
+`v12` reports, for each row of the ten-variable results table, the exact
+value of the contrast on the distribution the circuit angles induce. The
+primary computation enumerates the 1,024-entry joint distribution from the
+induced conditional probability table and applies the g-formula; it does
+not use Qiskit. The Qiskit statevector of the actual circuits is evaluated
+only as a cross-check. A simulated interval containing the exact value shows
+that the simulation is consistent with the exact quantity at that number of
+shots; it does not by itself establish that the estimator is unbiased, and
+the script reports the signed difference between simulated mean and exact
+value for each row so the reader can judge.
 
 `v04` reports the smallest max-entry error found when fitting a random
 two-parent table with the three angles of the additive family. The two

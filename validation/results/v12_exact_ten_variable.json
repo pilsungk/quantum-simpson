@@ -1,0 +1,93 @@
+{
+  "experiment": "v12_exact_ten_variable",
+  "script": {
+    "name": "v12_exact_ten_variable.py",
+    "sha256": "ecae783f09427e7ddd1f17ec742b69496d94544711e4111c9ba5d39d5b364016"
+  },
+  "shared_module": {
+    "name": "common.py",
+    "sha256": "fdc270cc7d148b08f3dc1e30091bd745a27670b519851e888bb84dd2dfafef99"
+  },
+  "environment": {
+    "timestamp": "2026-11-06T12:20:37.700752+09:00",
+    "python": "3.13.18",
+    "platform": "Linux-6.18.44-fc-v242-x86_64-with-glibc2.39",
+    "numpy": "2.5.3",
+    "scipy": "1.18.1",
+    "qiskit": "2.6.1"
+  },
+  "results": {
+    "treatment": "T",
+    "outcome": "O",
+    "adjustment_set": [
+      "A",
+      "G",
+      "I",
+      "R"
+    ],
+    "exact": {
+      "unadjusted": 0.3791354127461691,
+      "stratified_age": 0.4776695484585197,
+      "stratified_region": 0.38661405326078196,
+      "backdoor": 0.48419914559777855,
+      "surgery": 0.4841991455977783,
+      "p_o1_do_t1": 0.897118559072692,
+      "p_o1_do_t0": 0.4129194134749137
+    },
+    "backdoor_minus_surgery": 2.220446049250313e-16,
+    "enumeration_vs_statevector_max_abs_diff": 3.3306690738754696e-16,
+    "comparison_with_simulation": {
+      "unadjusted": {
+        "simulated_mean": 0.37813,
+        "simulated_ci_95": [
+          0.375667,
+          0.380592
+        ],
+        "exact": 0.3791354127461691,
+        "mean_minus_exact": -0.0010054127461690543,
+        "exact_inside_ci": true
+      },
+      "stratified_age": {
+        "simulated_mean": 0.476527,
+        "simulated_ci_95": [
+          0.474526,
+          0.478529
+        ],
+        "exact": 0.4776695484585197,
+        "mean_minus_exact": -0.0011425484585197432,
+        "exact_inside_ci": true
+      },
+      "stratified_region": {
+        "simulated_mean": 0.385535,
+        "simulated_ci_95": [
+          0.383067,
+          0.388004
+        ],
+        "exact": 0.38661405326078196,
+        "mean_minus_exact": -0.001079053260781948,
+        "exact_inside_ci": true
+      },
+      "backdoor": {
+        "simulated_mean": 0.48413,
+        "simulated_ci_95": [
+          0.480516,
+          0.487743
+        ],
+        "exact": 0.48419914559777855,
+        "mean_minus_exact": -6.914559777854157e-05,
+        "exact_inside_ci": true
+      },
+      "surgery": {
+        "simulated_mean": 0.485518,
+        "simulated_ci_95": [
+          0.48378,
+          0.487255
+        ],
+        "exact": 0.4841991455977783,
+        "mean_minus_exact": 0.0013188544022216808,
+        "exact_inside_ci": true
+      }
+    },
+    "simulation_record": "results_10_variable_backdoor.json"
+  }
+}

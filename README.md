@@ -98,9 +98,11 @@ data file's provenance block records the totals.
 
 `/validation` checks, on an ideal statevector simulator, that the restricted
 circuit family prepares exactly the distribution its angles induce and that
-circuit surgery gives the truncated factorization (`v11`), and measures how
-far the family falls short of an arbitrary conditional probability table
-(`v04`). It requires Qiskit 2 and therefore a separate environment; see
+circuit surgery gives the truncated factorization (`v11`), measures how far
+the family falls short of an arbitrary conditional probability table (`v04`),
+and computes the exact values of the five contrasts in the ten-variable
+results table by enumerating the induced joint distribution (`v12`). It
+requires Qiskit 2 and therefore a separate environment; see
 `validation/README.md`.
 
 ## Citation
