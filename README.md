@@ -1,42 +1,48 @@
-# A Circuit-Level Representation of Pearl-Style Interventions: A Simpson-Paradox Case Study for Binary Structural Causal Models
+# Quantum-Circuit Representation of Pearl-Style Interventions
 
 This repository contains the source code, data, and analysis scripts for the
-manuscript "A Circuit-Level Representation of Pearl-Style Interventions: A
-Simpson-Paradox Case Study for Binary Structural Causal Models".
-
-**arXiv Preprint:** [https://arxiv.org/abs/2509.00744]
+manuscript "Quantum-Circuit Representation of Pearl-Style Interventions". An
+earlier framing of the same work is on arXiv as
+[2509.00744](https://arxiv.org/abs/2509.00744) (v1, v2).
 
 ## Manuscript Versions and Code State
 
-The manuscript framing changed across arXiv versions: earlier versions
-emphasized executable semantics on quantum hardware, while the current version
-limits its claim to the representational level for a restricted family of
-binary SCMs. The circuit construction is numerically unchanged; only comments
-and reported wording were updated to match the current framing.
+The manuscript framing changed after arXiv v2: the arXiv versions emphasized
+executable semantics on quantum hardware, while the current manuscript limits
+its claim to the representational level for a restricted family of binary
+SCMs. The circuit construction is numerically unchanged; comments and reported
+wording were updated to match the current framing, and the validation,
+hardware re-analysis, and figure scripts listed below were added for it.
 
 | Manuscript version | Code state |
 |---|---|
-| arXiv v1, v2 | tag `pre-v3-20260228` |
-| arXiv v3 (current) | `main` |
+| arXiv 2509.00744 v1, v2 ("Implementing Pearl's DO-Calculus on Quantum Circuits: A Simpson-Type Case Study on NISQ Hardware") | tag `pre-v3-20260228` |
+| Current manuscript ("Quantum-Circuit Representation of Pearl-Style Interventions") | `main` |
 
 ## Repository Structure
 
 -   **/src**: Contains the core Python modules and experiment execution scripts.
     -   `simpson_do.py`: Three-variable model — observational and post-surgery interventional circuits.
     -   `multi_level_simpson_paradox.py`: Ten-variable network — model definition and circuit construction.
-    -   `dowhy_backdoor_validation.py`: Produces Table 2 — DoWhy identifies the adjustment set; every effect is then estimated nonparametrically (g-formula) with across-trial confidence intervals.
-    -   `run-experiments-simpson.py`: Produces Table 1 — multi-trial runner for the three-variable model.
+    -   `dowhy_backdoor_validation.py`: Produces the ten-variable results table — DoWhy identifies the adjustment set; every effect is then estimated nonparametrically (g-formula) with across-trial confidence intervals.
+    -   `run-experiments-simpson.py`: Produces the simulated column of the three-variable results table — multi-trial runner for the three-variable model.
     -   `simpson_paradox_ionq_standalone.py`: Script to run the three-variable experiment on IonQ backends.
 -   **/analysis**: Contains Python scripts used to generate the figures for the paper from the data in the `/data` directory.
     -   `ionq_trial_level_analysis.py`: Recomputes the hardware column of the three-qubit results table from the raw per-trial counts (`data/ionq_aria1_qpu_trials.json`) with Student's t intervals over the three QPU trials, and records estimator definitions, post-selection rates and recorded shot totals. Added for the revised manuscript.
 -   **/data**: JSON results.
-    -   `simpson_paradox_results.json` — three-variable model (Table 1).
-    -   `results_10_variable_backdoor.json` — ten-variable model (Table 2).
+    -   `simpson_paradox_results.json` — three-variable model, simulated column of the three-variable results table.
+    -   `results_10_variable_backdoor.json` — ten-variable model, simulated columns of the ten-variable results table; also the input to `validation/v12_exact_ten_variable.py`.
     -   `ionq_aria1_qpu_trials.json` — raw per-trial counts of the three IonQ Aria-1 QPU executions, with provenance (which trials of the original run are included and why the other two, produced by a local-simulator fallback after quota exhaustion, are not). This is the input to the hardware re-analysis.
     -   `ionq_aria1_qpu_trial_level_analysis.json` — output of `analysis/ionq_trial_level_analysis.py`; source of the hardware column in the revised results table.
     -   `simpson_paradox_ionq_aria-1_qpu_3trials_analysis.json` — original summary of the IonQ hardware run (point estimates with normal-approximation intervals), retained as submitted; superseded by the trial-level analysis above.
-    -   `results_10_qubit.json` — earlier ten-variable output retained from a previous manuscript version. Its stratified rows are unweighted averages over strata and therefore differ from the population-weighted (g-formula) values reported in the current Table 2; it is not the source of any table in the present version.
--   **/figures**: Publication-ready figures (PDFs). Some correspond to earlier manuscript versions and are not used in the current text.
+-   **/figures**: Publication-ready figures (PDFs). File names carry a figure-number prefix from an earlier version; the mapping to the current manuscript is (outputs of earlier manuscript versions are kept under tag `pre-v3-20260228`):
+
+    | Manuscript figure | Repository file | Produced by |
+    |---|---|---|
+    | Fig. 1 (causal DAGs, observational / interventional) | `f1_causal_dag_3q.pdf`, `f1_intervention_dag_3q.pdf` | drawn externally |
+    | Fig. 2 (three-qubit circuits) | `f2_observational_circuit_with_confounding.pdf`, `f2_interventional_circuit_implementing_do_T1.pdf` | `analysis/draw_circuits_standalone.py` |
+    | Fig. 3 (three-variable, simulation vs. QPU) | `f3_comparative.pdf` | `analysis/simpson-paradox-3q_sim_vs_qpu.py` |
+    | Figs. B1, B2 (ten-qubit circuits) | `ten_qubit_observational_circuit.pdf`, `ten_qubit_do_T1_circuit.pdf` | `validation/draw_ten_qubit_circuits.py` |
 -   **/validation**: Exactness and expressivity checks for the additive-in-angle circuit family (added for the revised manuscript). Self-contained, with its own `README.md` and `requirements.txt`; needs Qiskit 2, unlike `/src`.
 -   `requirements.txt`: A list of required Python packages for reproducibility.
 -   `LICENSE`: The license for this project (MIT License).
@@ -59,7 +65,6 @@ pip install -r requirements.txt
 
 ```bash
 python analysis/simpson-paradox-3q_sim_vs_qpu.py       # 3-qubit sim vs QPU
-python analysis/simpson-paradox-resolution-10q.py      # 10-qubit figure (earlier manuscript version)
 python analysis/draw_circuits_standalone.py            # 3-qubit circuit diagrams
 python validation/draw_ten_qubit_circuits.py           # 10-qubit circuit diagrams (validation venv)
 ```
@@ -70,8 +75,8 @@ Run from inside `/src` (the scripts import each other by module name):
 
 ```bash
 cd src
-python run-experiments-simpson.py          # three-variable, 30 trials (Table 1)
-python dowhy_backdoor_validation.py        # ten-variable, 30 trials (Table 2)
+python run-experiments-simpson.py          # three-variable, 30 trials
+python dowhy_backdoor_validation.py        # ten-variable, 30 trials
 python multi_level_simpson_paradox.py      # ten-variable model, exploratory run
 ```
 
@@ -108,11 +113,11 @@ requires Qiskit 2 and therefore a separate environment; see
 
 ## Citation
 
-If you find this work useful in your research, please consider citing our paper:
+Until the current manuscript is published, please cite the arXiv version:
 
 ```bibtex
 @misc{kang2025simpson,
-      title={A Circuit-Level Representation of Pearl-Style Interventions: A Simpson-Paradox Case Study for Binary Structural Causal Models}, 
+      title={Implementing Pearl's DO-Calculus on Quantum Circuits: A Simpson-Type Case Study on NISQ Hardware},
       author={Pilsung Kang},
       year={2025},
       eprint={2509.00744},
