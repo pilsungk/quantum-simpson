@@ -60,7 +60,8 @@ pip install -r requirements.txt
 ```bash
 python analysis/simpson-paradox-3q_sim_vs_qpu.py       # 3-qubit sim vs QPU
 python analysis/simpson-paradox-resolution-10q.py      # 10-qubit figure (earlier manuscript version)
-python analysis/draw_circuits_standalone.py            # circuit diagrams
+python analysis/draw_circuits_standalone.py            # 3-qubit circuit diagrams
+python validation/draw_ten_qubit_circuits.py           # 10-qubit circuit diagrams (validation venv)
 ```
 
 ### 3. Rerunning the simulations (optional)

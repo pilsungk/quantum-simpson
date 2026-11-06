@@ -8,3 +8,5 @@
 qiskit>=2.4,<3      # Qiskit 2 API: QuantumCircuit, Statevector
 numpy>=1.26
 scipy>=1.11         # v04 only: least_squares, minimize, differential_evolution
+matplotlib>=3.8     # draw_ten_qubit_circuits.py only
+pylatexenc>=2.10    # draw_ten_qubit_circuits.py only (Qiskit mpl drawer)

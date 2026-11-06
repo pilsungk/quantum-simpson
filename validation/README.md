@@ -24,6 +24,7 @@ concerns hardware noise, and no experiment claims a quantum advantage.
 | `v11_additive_exactness.py` | V1a: the circuit prepares the Bayesian-network factorization of the conditional probability table its angles induce. V2a: removing the gates on an intervened register and preparing it in the intervention value gives the truncated factorization. | both manuscript models and 1,000 random specifications over four graph shapes, every non-root node, both intervention arms: worst error 5.6e-16, inside and beyond composed angle pi |
 | `v04_additive_family_fit.py` | the additive family cannot represent an arbitrary table once a node has two or more parents; how large is the residual | best-found minimax error over 200 random two-parent tables: median 0.021, worst 0.079 (upper bounds on the true minimum) |
 | `v12_exact_ten_variable.py` | exact values of the five treatment contrasts in the ten-variable results table, by enumerating the joint distribution induced by the circuit angles and evaluating the g-formula; no sampling | exact backdoor-adjusted and post-surgery contrasts coincide to 2e-16 at +0.4841991; all five simulated 95% intervals contain their exact value; enumeration agrees with the Qiskit statevector to 3e-16 |
+| `draw_ten_qubit_circuits.py` | draws the two ten-qubit circuits of the manuscript appendix (observational and do(T=1)) from the angle specification that `v11` verifies, in the style of the three-qubit figures; prints gate counts and depths | observational 34 gates (7 RY, 19 CRY, 8 X), depth 18; do(T=1) 29 gates, depth 14; outputs `../figures/ten_qubit_*.pdf` |
 
 Script numbers are kept from the author's internal validation suite so that
 result files can be traced back to it.
@@ -44,6 +45,7 @@ environment for this directory:
     python3 v11_additive_exactness.py
     python3 v04_additive_family_fit.py
     python3 v12_exact_ten_variable.py
+    python3 draw_ten_qubit_circuits.py   # figures only; needs matplotlib, pylatexenc
 
 Each script is seeded and deterministic. `v11` and `v12` run in a few
 seconds; `v04` runs two global searches per table and takes several minutes.
